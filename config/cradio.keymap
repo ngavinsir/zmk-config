@@ -33,31 +33,63 @@
 MAKE_HRM(hml, &kp, &kp, KEYS_R THUMBS)  // left-hand HRMs
 MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS)  // right-hand HRMs
 
+#define LMOD1 LALT
+#define LMOD2 LCTRL
+#define LMOD3 LSHFT
+#define LMOD4 LGUI
+#define RMOD1 RGUI
+#define RMOD2 RSHFT
+#define RMOD3 RCTRL
+#define RMOD4 RALT
+#define LMOD1_WIN LGUI
+#define LMOD2_WIN LALT
+#define LMOD3_WIN LSHFT
+#define LMOD4_WIN LCTRL
+#define RMOD1_WIN RCTRL
+#define RMOD2_WIN RSHFT
+#define RMOD3_WIN RALT
+#define RMOD4_WIN RGUI
+
 #define TD(NAME, SINGLE, DOUBLE) \
     ZMK_TAP_DANCE(NAME, \
         tapping-term-ms = <200>; \
         bindings = <SINGLE>, <DOUBLE>; \
     )
-TD(hmr_a, &hml LALT A, &kp A)
-TD(hmr_r, &hml LCTRL R, &kp R)
-TD(hmr_s, &hml LSHFT S, &kp S)
-TD(hmr_t, &hml LWIN T, &kp T)
-TD(hmr_n, &hml RWIN N, &kp N)
-TD(hmr_e, &hml RSHFT E, &kp E)
-TD(hmr_i, &hml RCTRL I, &kp I)
-TD(hmr_o, &hml RALT O, &kp O)
 
-TD(win_hmr_a, &hml LGUI A, &kp A)
+#define TD_HRM(B1, B2, B3, B4, B5, B6, B7, B8) \
+    TD(hrm_ ## B1, &hml LMOD1 B1, &kp B1) \
+    TD(hrm_ ## B2, &hml LMOD2 B2, &kp B2) \
+    TD(hrm_ ## B3, &hml LMOD3 B3, &kp B3) \
+    TD(hrm_ ## B4, &hml LMOD4 B4, &kp B4) \
+    TD(hrm_ ## B5, &hmr RMOD1 B5, &kp B5) \
+    TD(hrm_ ## B6, &hmr RMOD2 B6, &kp B6) \
+    TD(hrm_ ## B7, &hmr RMOD3 B7, &kp B7) \
+    TD(hrm_ ## B8, &hmr RMOD4 B8, &kp B8) \
+    TD(win_hrm_ ## B1, &hml LMOD1_WIN B1, &kp B1) \
+    TD(win_hrm_ ## B2, &hml LMOD2_WIN B2, &kp B2) \
+    TD(win_hrm_ ## B3, &hml LMOD3_WIN B3, &kp B3) \
+    TD(win_hrm_ ## B4, &hml LMOD4_WIN B4, &kp B4) \
+    TD(win_hrm_ ## B5, &hmr RMOD1_WIN B5, &kp B5) \
+    TD(win_hrm_ ## B6, &hmr RMOD2_WIN B6, &kp B6) \
+    TD(win_hrm_ ## B7, &hmr RMOD3_WIN B7, &kp B7) \
+    TD(win_hrm_ ## B8, &hmr RMOD4_WIN B8, &kp B8)
+
+// home row mods default layer
+TD_HRM(A, R, S, T, N, E, I, O)
+// home row mods num layer
+TD_HRM(MINUS, N4, N5, N6, LBKT, RBKT, LPAR, RPAR)
+// home row mods nav layer
+TD_HRM(F9, LEFT, DOWN, RIGHT, F11, H, J, K, L)
 
 / {
-    keymap {
+    keymap d
         compatible = "zmk,keymap";
         default_layer {
             bindings = <
      // 0 ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮   ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮
             &kp Q          &kp W          &kp F          &kp P          &kp B              &kp J          &kp L          &kp U          &kp Y          &kp BSPC
         //├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
-            &hmr_a         &hml LCTRL R   &hml LSHFT S   &hml LWIN T    &kp G              &kp M          &hmr RWIN N    &hmr RSHFT E  &hmr RCTRL I &hmr RALT O
+            &hrm_A         &hrm_R         &hrm_S         &hrm_T         &kp G              &kp M          &hrm_N         &hrm_E         &hrm_I         &hrm_O
         //├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
             &kp Z          &kp X          &kp C          &kp D          &kp V              &kp K          &kp H          &kp COMMA      &kp DOT        &kp FSLH
         //╰──────────────┴──────────────┴──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
@@ -71,7 +103,7 @@ TD(win_hmr_a, &hml LGUI A, &kp A)
      // 1 ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮   ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮
             &bt BT_CLR     &kp N1         &kp N2         &kp N3         &to 3              &kp HOME       &kp PG_DN      &kp PG_UP      &kp SEMI       &kp COLON
         //├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
-           &hml LALT MINUS &hml LCTRL N4  &hml LSHFT N5  &hml LWIN N6   &kp LBRC           &kp RBRC      &hmr RWIN LBKT &hmr RSHFT RBKT &hmr RCTRL LPAR &hmr RALT RPAR
+            &hrm_MINUS     &hrm_N4        &hrm_N5        &hrm_N6        &kp LBRC           &kp RBRC       &hrm_LBKT      &hrm_RBKT      &hrm_LPAR      &hrm_RPAR
         //├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
             &kp PLUS       &kp N7         &kp N8         &kp N9         &kp N0             &kp DQT        &kp SQT        &out OUT_TOG   &kp END        &studio_unlock
         //╰──────────────┴──────────────┴──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
@@ -85,7 +117,7 @@ TD(win_hmr_a, &hml LGUI A, &kp A)
      // 2 ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮   ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮
             &kp GRAVE      &kp TILDE      &kp UP         &kp F1         &caps_word         &bootloader    &kp F4         &kp F5         &kp SEMI       &kp COLON
         //├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
-            &hml LALT F9  &hml LCTRL LEFT &hml LSHFT DOWN &hml LWIN RIGHT &kp F11          &kp F12        &hmr RWIN H    &hmr RSHFT J   &hmr RCTRL K   &hmr RALT L
+            &hrm_F9        &hrm_LEFT      &hrm_DOWN      &hrm_RIGHT     &kp F11            &kp F12        &hrm_H         &hrm_J         &hrm_K         &hrm_L
         //├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
             &kp K_VOL_DN   &kp K_VOL_UP   &kp F2         &kp F3         &bt BT_NXT         &kp F10        &kp UNDER      &kp EQUAL      &kp BSLH       &studio_unlock
         //╰──────────────┴──────────────┴──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
@@ -99,7 +131,7 @@ TD(win_hmr_a, &hml LGUI A, &kp A)
      // 3 ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮   ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮
             &kp Q          &kp W          &kp F          &kp P          &kp B              &kp J          &kp L          &kp U          &kp Y          &kp BSPC
         //├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
-            &win_hmr_a     &hml LALT R    &hml LSHFT S   &hml LCTRL T   &kp G              &kp M          &hmr RCTRL N   &hmr RSHFT E   &hmr RALT I    &hmr RGUI O
+            &win_hrm_A     &win_hrm_R     &win_hrm_S     &win_hrm_T     &kp G              &kp M          &win_hrm_N     &win_hrm_E     &win_hrm_I     &win_hrm_O
         //├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
             &kp Z          &kp X          &kp C          &kp D          &kp V              &kp K          &kp H          &kp COMMA      &kp DOT        &kp FSLH
         //╰──────────────┴──────────────┴──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
@@ -113,7 +145,7 @@ TD(win_hmr_a, &hml LGUI A, &kp A)
      // 4 ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮   ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮
             &bt BT_CLR     &kp N1         &kp N2         &kp N3         &to 0              &kp HOME       &kp PG_DN      &kp PG_UP      &kp SEMI       &kp COLON
         //├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
-           &hml LGUI MINUS &hml LALT N4   &hml LSHFT N5  &hml LCTRL N6  &kp LBRC           &kp RBRC      &hmr RCTRL LBKT &hmr RSHFT RBKT &hmr RALT LPAR &hmr RGUI RPAR
+            &win_hrm_MINUS &win_hrm_N4    &win_hrm_N5    &win_hrm_N6    &kp LBRC           &kp RBRC       &win_hrm_LBKT  &win_hrm_RBKT  &win_hrm_LPAR  &win_hrm_RPAR
         //├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
             &kp PLUS       &kp N7         &kp N8         &kp N9         &kp N0             &kp DQT        &kp SQT        &out OUT_TOG   &kp END        &studio_unlock
         //╰──────────────┴──────────────┴──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
@@ -127,7 +159,7 @@ TD(win_hmr_a, &hml LGUI A, &kp A)
      // 5 ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮   ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮
             &kp GRAVE      &kp TILDE      &kp UP         &kp F1         &caps_word         &bootloader    &kp F4         &kp F5         &kp SEMI       &kp COLON
         //├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
-            &hml LGUI F9   &hml LALT LEFT &hml LSHFT DOWN &hml LCTRL RIGHT &kp F11         &kp F12        &hmr RCTRL H   &hmr RSHFT J   &hmr RALT K    &hmr RGUI L
+            &win_hrm_F9    &win_hrm_LEFT  &win_hrm_DOWN  &win_hrm_RIGHT &kp F11            &kp F12        &win_hrm_H     &win_hrm_J     &win_hrm_K     &win_hrm_L
         //├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
             &kp K_VOL_DN   &kp K_VOL_UP   &kp F2         &kp F3         &bt BT_NXT         &kp F10        &kp UNDER      &kp EQUAL      &kp BSLH       &studio_unlock
         //╰──────────────┴──────────────┴──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
