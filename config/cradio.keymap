@@ -33,6 +33,22 @@
 MAKE_HRM(hml, &kp, &kp, KEYS_R THUMBS)  // left-hand HRMs
 MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS)  // right-hand HRMs
 
+#define TD(NAME, SINGLE, DOUBLE) \
+    ZMK_TAP_DANCE(NAME, \
+        tapping-term-ms = <200>; \
+        bindings = <SINGLE>, <DOUBLE>; \
+    )
+TD(hmr_a, &hml LALT A, &kp A)
+TD(hmr_r, &hml LCTRL R, &kp R)
+TD(hmr_s, &hml LSHFT S, &kp S)
+TD(hmr_t, &hml LWIN T, &kp T)
+TD(hmr_n, &hml RWIN N, &kp N)
+TD(hmr_e, &hml RSHFT E, &kp E)
+TD(hmr_i, &hml RCTRL I, &kp I)
+TD(hmr_o, &hml RALT O, &kp O)
+
+TD(win_hmr_a, &hml LGUI A, &kp A)
+
 / {
     keymap {
         compatible = "zmk,keymap";
@@ -41,7 +57,7 @@ MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS)  // right-hand HRMs
      // 0 ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮   ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮
             &kp Q          &kp W          &kp F          &kp P          &kp B              &kp J          &kp L          &kp U          &kp Y          &kp BSPC
         //├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
-            &hml LALT A    &hml LCTRL R   &hml LSHFT S   &hml LWIN T    &kp G              &kp M          &hmr RWIN N    &hmr RSHFT E  &hmr RCTRL I &hmr RALT O
+            &hmr_a         &hml LCTRL R   &hml LSHFT S   &hml LWIN T    &kp G              &kp M          &hmr RWIN N    &hmr RSHFT E  &hmr RCTRL I &hmr RALT O
         //├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
             &kp Z          &kp X          &kp C          &kp D          &kp V              &kp K          &kp H          &kp COMMA      &kp DOT        &kp FSLH
         //╰──────────────┴──────────────┴──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
@@ -83,7 +99,7 @@ MAKE_HRM(hmr, &kp, &kp, KEYS_L THUMBS)  // right-hand HRMs
      // 3 ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮   ╭──────────────┬──────────────┬──────────────┬──────────────┬──────────────╮
             &kp Q          &kp W          &kp F          &kp P          &kp B              &kp J          &kp L          &kp U          &kp Y          &kp BSPC
         //├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
-            &hml LGUI A    &hml LALT R    &hml LSHFT S   &hml LCTRL T   &kp G              &kp M          &hmr RCTRL N   &hmr RSHFT E   &hmr RALT I    &hmr RGUI O
+            &win_hmr_a     &hml LALT R    &hml LSHFT S   &hml LCTRL T   &kp G              &kp M          &hmr RCTRL N   &hmr RSHFT E   &hmr RALT I    &hmr RGUI O
         //├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┼──────────────┼──────────────┤
             &kp Z          &kp X          &kp C          &kp D          &kp V              &kp K          &kp H          &kp COMMA      &kp DOT        &kp FSLH
         //╰──────────────┴──────────────┴──────────────┼──────────────┼──────────────┤   ├──────────────┼──────────────┼──────────────┴──────────────┴──────────────╯
